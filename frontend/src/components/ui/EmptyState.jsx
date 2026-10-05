@@ -16,9 +16,9 @@ export default function EmptyState({
       <div className="w-12 h-12 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center mx-auto mb-3 text-slate-500 shadow-sm">
         <Icon className="w-6 h-6" aria-hidden="true" />
       </div>
-      <h4 className="text-sm font-semibold text-slate-800">{title}</h4>
+      <h4 className="text-base font-bold text-slate-900">{title}</h4>
       {description && (
-        <p className="text-xs text-slate-500 mt-1 leading-relaxed">{description}</p>
+        <p className="text-xs sm:text-sm text-slate-600 mt-1.5 leading-relaxed">{description}</p>
       )}
       {action && <div className="mt-4">{action}</div>}
     </div>

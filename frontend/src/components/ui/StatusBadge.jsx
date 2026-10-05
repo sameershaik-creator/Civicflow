@@ -40,7 +40,7 @@ export default function StatusBadge({ status, size = 'sm', className = '' }) {
       break;
     case 'AI_GENERATED':
       config = {
-        label: 'AI Draft Ready',
+        label: 'Report Draft Ready',
         icon: Cpu,
         bg: 'bg-blue-50',
         text: 'text-blue-800',
@@ -49,7 +49,7 @@ export default function StatusBadge({ status, size = 'sm', className = '' }) {
       break;
     case 'UNDER_REVIEW':
       config = {
-        label: 'Under Citizen Review',
+        label: 'In Review',
         icon: Clock,
         bg: 'bg-purple-50',
         text: 'text-purple-800',
@@ -58,7 +58,7 @@ export default function StatusBadge({ status, size = 'sm', className = '' }) {
       break;
     case 'SUBMITTED':
       config = {
-        label: 'Submitted for Review',
+        label: 'Submitted',
         icon: ShieldCheck,
         bg: 'bg-blue-50',
         text: 'text-blue-800',
@@ -67,7 +67,7 @@ export default function StatusBadge({ status, size = 'sm', className = '' }) {
       break;
     case 'ACCEPTED':
       config = {
-        label: 'Complaint Accepted',
+        label: 'Report Accepted',
         icon: CheckCircle2,
         bg: 'bg-emerald-50',
         text: 'text-emerald-800',
@@ -76,7 +76,7 @@ export default function StatusBadge({ status, size = 'sm', className = '' }) {
       break;
     case 'REJECTED':
       config = {
-        label: 'Complaint Rejected',
+        label: 'Report Declined',
         icon: XCircle,
         bg: 'bg-rose-50',
         text: 'text-rose-800',
@@ -118,10 +118,10 @@ export default function StatusBadge({ status, size = 'sm', className = '' }) {
 
   const Icon = config.icon;
   const sizeClasses = size === 'xs' 
-    ? 'px-2 py-0.5 text-[10px] gap-1' 
+    ? 'px-2 py-0.5 text-xs font-semibold gap-1' 
     : size === 'lg'
-    ? 'px-3 py-1.5 text-sm gap-2'
-    : 'px-2.5 py-1 text-xs gap-1.5';
+    ? 'px-3 py-1.5 text-sm font-semibold gap-2'
+    : 'px-2.5 py-1 text-xs font-semibold gap-1.5';
 
   const iconSizes = size === 'xs' ? 'w-3 h-3' : size === 'lg' ? 'w-4 h-4' : 'w-3.5 h-3.5';
 
@@ -129,7 +129,7 @@ export default function StatusBadge({ status, size = 'sm', className = '' }) {
     <span
       role="status"
       aria-label={`Status: ${config.label}`}
-      className={`inline-flex items-center font-medium rounded-full border ${config.bg} ${config.text} ${config.border} ${sizeClasses} ${className}`}
+      className={`inline-flex items-center rounded-full border whitespace-nowrap shrink-0 ${config.bg} ${config.text} ${config.border} ${sizeClasses} ${className}`}
     >
       <Icon className={`${iconSizes} shrink-0`} aria-hidden="true" />
       <span>{config.label}</span>

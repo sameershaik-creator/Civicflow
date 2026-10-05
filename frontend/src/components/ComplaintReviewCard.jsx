@@ -78,7 +78,7 @@ function AuthenticatedImage({ complaintId, alt, className }) {
     return (
       <div className="h-48 bg-slate-100 animate-pulse rounded-lg flex items-center justify-center text-xs text-slate-400">
         <RefreshCw className="w-4 h-4 animate-spin mr-2" aria-hidden="true" />
-        <span>Loading evidence photo...</span>
+        <span>Loading photo...</span>
       </div>
     );
   }
@@ -87,7 +87,7 @@ function AuthenticatedImage({ complaintId, alt, className }) {
     return (
       <div className="h-48 bg-slate-50 border border-slate-200 rounded-lg flex items-center justify-center text-xs text-slate-500">
         <AlertCircle className="w-4 h-4 text-slate-400 mr-2" aria-hidden="true" />
-        <span>Evidence photo could not be loaded</span>
+        <span>Photo could not be loaded</span>
       </div>
     );
   }
@@ -245,7 +245,7 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
         }
       }
     } catch (err) {
-      setAiError(err.message || 'AI analysis could not be generated.');
+      setAiError(err.message || 'Report details could not be prepared.');
     } finally {
       setRetryingAI(false);
     }
@@ -264,7 +264,7 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
         onClose();
       }
     } catch (err) {
-      setDeleteError(err.message || 'Failed to delete complaint.');
+      setDeleteError(err.message || 'Failed to delete report.');
     } finally {
       setDeleting(false);
     }
@@ -305,7 +305,7 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
       }
       return updated;
     } catch (err) {
-      setSaveError(err.message || 'Failed to save draft edits.');
+      setSaveError(err.message || 'Failed to save changes.');
       throw err;
     } finally {
       setSaving(false);
@@ -315,11 +315,11 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
   async function handleSubmitComplaint() {
     if (isSubmitted || isTerminal) return;
     if (currentStatus === 'DRAFT') {
-      setSubmitError('Complaint is still in DRAFT status and must undergo AI analysis and human review before submission.');
+      setSubmitError('This report is still being prepared and must be reviewed before submission.');
       return;
     }
     if (!finalProblem.trim()) {
-      setSubmitError('Please save a confirmed problem description before final submission.');
+      setSubmitError('Please save a confirmed problem description before submission.');
       return;
     }
 
@@ -363,25 +363,25 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
   return (
     <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden mb-10">
       {/* Header Bar */}
-      <div className="px-6 py-4 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4">
+      <div className="px-4 sm:px-6 py-3.5 sm:py-4 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3 sm:gap-4">
         <div>
           <div className="flex items-center gap-2">
             <UserCheck className="w-5 h-5 text-blue-600" aria-hidden="true" />
-            <h3 className="text-base font-bold text-slate-900">
-              {isSubmitted ? 'Complaint Submission Details (Locked)' : 'Human Review & Complaint Editing'}
+            <h3 className="text-base sm:text-lg font-bold text-slate-900">
+              {isSubmitted ? 'Report Details (Submitted)' : 'Review & Confirm Report'}
             </h3>
-            <span className="font-mono text-xs text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">
+            <span className="font-mono text-xs text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-200 font-medium">
               {complaint.id.slice(0, 8)}…
             </span>
           </div>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-normal">
             {isAccepted
-              ? 'This complaint has been officially accepted by municipal administration.'
+              ? 'This report has been accepted by municipal administration.'
               : isRejected
-              ? 'This complaint was reviewed and formally rejected by municipal administration.'
+              ? 'This report was reviewed and declined by municipal administration.'
               : isSubmitted
-              ? 'This complaint has been submitted and is locked for editing.'
-              : 'This is your report. Review the AI-assisted draft and confirm the wording before submitting.'}
+              ? 'This report has been submitted and is locked for editing.'
+              : 'Review the details below and make any necessary adjustments before submitting your report.'}
           </p>
         </div>
 
@@ -390,8 +390,8 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
           <button
             type="button"
             onClick={() => setShowDeleteModal(true)}
-            className="px-2.5 py-1 text-xs text-rose-700 bg-white hover:bg-rose-50 border border-rose-300 rounded-lg font-semibold inline-flex items-center gap-1.5 transition shadow-xs"
-            title="Delete this complaint permanently"
+            className="px-2.5 py-1 text-xs sm:text-sm text-rose-700 bg-white hover:bg-rose-50 border border-rose-300 rounded-lg font-semibold inline-flex items-center gap-1.5 transition shadow-xs"
+            title="Delete this report"
           >
             <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
             <span className="hidden sm:inline">Delete</span>
@@ -409,11 +409,11 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
         </div>
       </div>
 
-      <div className="p-6 space-y-6">
+      <div className="p-4 sm:p-6 space-y-5 sm:space-y-6">
         {/* Terminal or Submission Feedback Banners */}
         {isAccepted && (
-          <Alert variant="success" title="Official Municipal Acceptance">
-            This complaint has been reviewed and formally accepted by municipal administration. The case is now locked against further modification.
+          <Alert variant="success" title="Report Accepted">
+            This report has been reviewed and accepted by municipal administration.
             {complaint.decided_at && (
               <span className="block mt-1 font-mono text-[11px] text-emerald-800">
                 Decision recorded (UTC): {new Date(complaint.decided_at).toUTCString()}
@@ -423,11 +423,11 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
         )}
 
         {isRejected && (
-          <Alert variant="error" title="Official Municipal Rejection">
-            This complaint was reviewed and declined by municipal administration.
+          <Alert variant="error" title="Report Declined">
+            This report was reviewed and declined by municipal administration.
             {complaint.admin_reason && (
               <div className="mt-2 p-3 bg-white border border-rose-200 rounded-lg">
-                <span className="font-semibold text-rose-900 block mb-0.5">Municipal Reason:</span>
+                <span className="font-semibold text-rose-900 block mb-0.5">Reason:</span>
                 <p className="text-rose-800 font-sans">{complaint.admin_reason}</p>
               </div>
             )}
@@ -443,17 +443,17 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
           <div className="p-4 bg-emerald-50 border border-emerald-300 rounded-xl text-emerald-900 shadow-xs">
             <div className="flex items-center gap-2">
               <CheckCircle className="w-5 h-5 text-emerald-600" aria-hidden="true" />
-              <h4 className="text-sm font-bold text-emerald-950">✓ Complaint Submitted</h4>
+              <h4 className="text-sm font-bold text-emerald-950">✓ Report Submitted</h4>
             </div>
-            <div className="mt-1.5 text-xs">
+            <div className="mt-1.5 text-xs sm:text-sm">
               <p className="font-semibold text-emerald-900">
-                Status: SUBMITTED — Awaiting Municipal Review
+                Status: SUBMITTED — Awaiting Review
               </p>
-              <p className="text-emerald-800 mt-1">
-                Your complaint has been submitted for municipal review. The case file is now locked against further edits and queued for administrator adjudication.
+              <p className="text-emerald-800 mt-1 leading-normal">
+                Your report has been submitted. It is now queued for municipal review.
               </p>
               {complaint.submitted_at && (
-                <span className="block mt-1 font-mono text-[11px] text-emerald-700">
+                <span className="block mt-1 font-mono text-xs text-emerald-700">
                   Submitted at (UTC): {new Date(complaint.submitted_at).toUTCString()}
                 </span>
               )}
@@ -463,7 +463,7 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
 
         {saveSuccess && (
           <Alert variant="success" onClose={() => setSaveSuccess(false)}>
-            Draft edits saved successfully. Complaint status transitioned to <strong>UNDER_REVIEW</strong>.
+            Draft changes saved successfully.
           </Alert>
         )}
 
@@ -483,8 +483,8 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
         <section aria-labelledby="layer1-heading" className="border border-slate-200 rounded-xl p-4 sm:p-5 bg-slate-50/50">
           <div className="flex items-center gap-2 mb-3">
             <Camera className="w-4 h-4 text-slate-500" aria-hidden="true" />
-            <h4 id="layer1-heading" className="text-xs font-bold uppercase tracking-wider text-slate-600">
-              1. Original Citizen Evidence (Read-Only Ground Truth)
+            <h4 id="layer1-heading" className="text-sm font-bold uppercase tracking-wider text-slate-700">
+              1. Photos & Submitted Details
             </h4>
           </div>
 
@@ -492,18 +492,18 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
             <div className="md:col-span-1">
               <AuthenticatedImage complaintId={complaint.id} alt="Original incident evidence" />
             </div>
-            <div className="md:col-span-2 space-y-2 text-xs">
+            <div className="md:col-span-2 space-y-2 text-xs sm:text-sm">
               <div>
-                <span className="font-semibold text-slate-700 block">Original Problem Description:</span>
-                <p className="text-slate-800 mt-0.5 bg-white p-2.5 rounded-lg border border-slate-200">
+                <span className="font-semibold text-slate-800 block text-xs sm:text-sm">Problem Description:</span>
+                <p className="text-slate-900 mt-1 bg-white p-3 rounded-lg border border-slate-200 text-sm leading-relaxed">
                   {complaint.original_problem}
                 </p>
               </div>
 
               {complaint.original_address && (
                 <div>
-                  <span className="font-semibold text-slate-700 block">Reported Address Hint:</span>
-                  <p className="text-slate-800 mt-0.5 bg-white p-2 rounded-lg border border-slate-200">
+                  <span className="font-semibold text-slate-800 block text-xs sm:text-sm">Incident Address:</span>
+                  <p className="text-slate-900 mt-1 bg-white p-2.5 rounded-lg border border-slate-200 text-sm">
                     {complaint.original_address}
                   </p>
                 </div>
@@ -511,8 +511,8 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
 
               {complaint.original_latitude !== null && complaint.original_longitude !== null && (
                 <div>
-                  <span className="font-semibold text-slate-700 block">Device Telemetry GPS:</span>
-                  <p className="font-mono text-slate-600 mt-0.5 bg-white p-2 rounded-lg border border-slate-200">
+                  <span className="font-semibold text-slate-800 block text-xs sm:text-sm">GPS Coordinates:</span>
+                  <p className="font-mono text-slate-700 mt-1 bg-white p-2.5 rounded-lg border border-slate-200 text-xs sm:text-sm font-medium">
                     {complaint.original_latitude.toFixed(6)}, {complaint.original_longitude.toFixed(6)}
                   </p>
                 </div>
@@ -527,27 +527,27 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
 
           return (
             <section aria-labelledby="layer2-heading" className="border border-slate-200 rounded-xl p-4 sm:p-5 bg-slate-50/50">
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
-                  <Cpu className="w-4 h-4 text-blue-600" aria-hidden="true" />
+                  <Cpu className="w-4 h-4 text-blue-600 shrink-0" aria-hidden="true" />
                   <div>
-                    <h4 id="layer2-heading" className="text-xs font-bold uppercase tracking-wider text-slate-700">
-                      2. AI-Assisted Interpretation
+                    <h4 id="layer2-heading" className="text-sm font-bold uppercase tracking-wider text-slate-800">
+                      2. Report Details
                     </h4>
-                    <span className="text-[11px] text-slate-500 font-normal">
-                      AI assistance — review before submission
+                    <span className="text-xs text-slate-600 font-normal">
+                      Structured details — review before submission
                     </span>
                   </div>
                 </div>
                 {displayAi && (
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     {displayAi.category && (
-                      <span className="px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full text-[10px] font-medium">
+                      <span className="px-2.5 py-0.5 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">
                         {displayAi.category}
                       </span>
                     )}
                     {displayAi.urgency_level && (
-                      <span className="px-2 py-0.5 bg-slate-200 text-slate-800 rounded-full text-[10px] font-medium">
+                      <span className="px-2.5 py-0.5 bg-slate-200 text-slate-800 rounded-full text-xs font-semibold">
                         Urgency: {displayAi.urgency_level}
                       </span>
                     )}
@@ -556,16 +556,16 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
               </div>
 
               {loadingAI ? (
-                <div className="py-6 text-center text-xs text-slate-500 flex items-center justify-center gap-2">
+                <div className="py-6 text-center text-xs sm:text-sm text-slate-600 font-medium flex items-center justify-center gap-2">
                   <RefreshCw className="w-4 h-4 animate-spin text-blue-600" aria-hidden="true" />
-                  <span>Fetching AI-assisted structured interpretation...</span>
+                  <span>Preparing report details...</span>
                 </div>
               ) : displayAi ? (
-                <div className="space-y-3 text-xs">
+                <div className="space-y-3.5">
                   {displayAi.observed_issue && (
                     <div>
-                      <span className="font-semibold text-slate-700 block mb-0.5">Observed Issue (Visual Evidence):</span>
-                      <p className="text-slate-800 bg-white p-2.5 rounded-lg border border-slate-200">
+                      <span className="font-semibold text-slate-800 block mb-1 text-xs sm:text-sm">Observed Issue:</span>
+                      <p className="text-slate-900 bg-white p-3 rounded-lg border border-slate-200 text-sm leading-relaxed">
                         {displayAi.observed_issue}
                       </p>
                     </div>
@@ -573,8 +573,8 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
 
                   {displayAi.citizen_claim && (
                     <div>
-                      <span className="font-semibold text-slate-700 block mb-0.5">Citizen Claim:</span>
-                      <p className="text-slate-800 bg-white p-2.5 rounded-lg border border-slate-200">
+                      <span className="font-semibold text-slate-800 block mb-1 text-xs sm:text-sm">Reported Description:</span>
+                      <p className="text-slate-900 bg-white p-3 rounded-lg border border-slate-200 text-sm leading-relaxed">
                         {displayAi.citizen_claim}
                       </p>
                     </div>
@@ -582,17 +582,17 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
 
                   {displayAi.formal_summary && (
                     <div>
-                      <span className="font-semibold text-slate-700 block mb-0.5">Formal Municipal Summary:</span>
-                      <p className="text-slate-800 bg-white p-2.5 rounded-lg border border-slate-200 font-medium">
+                      <span className="font-semibold text-slate-800 block mb-1 text-xs sm:text-sm">Summary:</span>
+                      <p className="text-slate-900 bg-white p-3 rounded-lg border border-slate-200 font-medium text-sm leading-relaxed">
                         {displayAi.formal_summary}
                       </p>
                     </div>
                   )}
 
                   {displayAi.warnings && displayAi.warnings.length > 0 && (
-                    <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-900">
-                      <span className="font-semibold block mb-1">Observations & Warnings:</span>
-                      <ul className="list-disc list-inside space-y-0.5 text-[11px]">
+                    <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-950 font-medium">
+                      <span className="font-bold block mb-1 text-xs sm:text-sm text-amber-950">Observations:</span>
+                      <ul className="list-disc list-inside space-y-0.5 text-xs leading-relaxed text-amber-900">
                         {displayAi.warnings.map((w, idx) => (
                           <li key={idx}>{w}</li>
                         ))}
@@ -600,17 +600,17 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
                     </div>
                   )}
 
-                  <p className="text-[11px] text-slate-400 italic">
-                    AI assistance structures the report. It does not submit the complaint or make administrative decisions.
+                  <p className="text-xs text-slate-500 italic font-medium">
+                    This summary helps organize your report for municipal review.
                   </p>
                 </div>
               ) : (
-                <div className="py-3 px-4 bg-amber-50 border border-amber-200 rounded-lg text-amber-900 text-xs">
+                <div className="py-3 px-4 bg-amber-50 border border-amber-200 rounded-lg text-amber-950 text-xs sm:text-sm">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
-                      <p className="font-semibold text-amber-950">AI analysis could not be completed.</p>
-                      <p className="text-amber-800 mt-0.5">
-                        {aiError || 'Complaint is still in DRAFT status and must undergo AI analysis before submission.'}
+                      <p className="font-bold text-amber-950 text-sm">Could not prepare report details.</p>
+                      <p className="text-amber-900 mt-0.5 text-xs sm:text-sm leading-normal">
+                        {aiError || 'Please try preparing the report details again before submission.'}
                       </p>
                     </div>
                     {!isLocked && (
@@ -618,10 +618,10 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
                         type="button"
                         onClick={handleRetryAI}
                         disabled={retryingAI}
-                        className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-md font-medium text-xs transition inline-flex items-center gap-1.5 shadow-xs whitespace-nowrap"
+                        className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-md font-semibold text-xs sm:text-sm transition inline-flex items-center gap-1.5 shadow-xs whitespace-nowrap"
                       >
                         <RefreshCw className={`w-3.5 h-3.5 ${retryingAI ? 'animate-spin' : ''}`} aria-hidden="true" />
-                        <span>{retryingAI ? 'Analyzing...' : 'Retry AI Analysis'}</span>
+                        <span>{retryingAI ? 'Preparing...' : 'Retry Details'}</span>
                       </button>
                     )}
                   </div>
@@ -634,7 +634,7 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
         {/* Layer 3: Location Verification & Map */}
         {(locationData || complaint.latitude) && (
           <section aria-labelledby="location-heading">
-            <h4 id="location-heading" className="sr-only">Location Verification & Map</h4>
+            <h4 id="location-heading" className="sr-only">Location & Map</h4>
             <InteractiveMap
               latitude={locationData?.latitude ?? complaint.latitude}
               longitude={locationData?.longitude ?? complaint.longitude}
@@ -654,16 +654,16 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
             <div>
               <div className="flex items-center gap-2">
                 <UserCheck className="w-4 h-4 text-blue-600" aria-hidden="true" />
-                <h4 id="layer4-heading" className="text-sm font-bold text-slate-900">
+                <h4 id="layer4-heading" className="text-base font-bold text-slate-900">
                   {isLocked 
-                    ? '3. Citizen Final Report (Submitted — Read-Only)' 
-                    : '3. Citizen Final Report (Human Authorized Layer)'}
+                    ? '3. Your Report (Submitted)' 
+                    : '3. Review & Edit Your Report'}
                 </h4>
               </div>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-normal">
                 {isLocked
-                  ? 'The finalized report below is locked and archived as the authoritative municipal submission.'
-                  : 'You are the human in control. Modify the text as needed to accurately reflect the issue.'}
+                  ? 'Your report has been submitted and is locked for review.'
+                  : 'Review and make any edits needed so your report accurately reflects the issue.'}
               </p>
             </div>
 
@@ -671,18 +671,18 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
               <button
                 type="button"
                 onClick={handleReset}
-                className="text-xs text-slate-500 hover:text-slate-800 flex items-center gap-1 font-medium transition"
+                className="text-xs sm:text-sm text-slate-600 hover:text-slate-900 flex items-center gap-1.5 font-medium transition"
               >
                 <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>Reset to AI Draft</span>
+                <span>Reset to Prepared Draft</span>
               </button>
             )}
           </div>
 
           <form onSubmit={handleSaveDraft} className="space-y-4">
             <div>
-              <label htmlFor="final-problem-input" className="block text-xs font-semibold text-slate-800 mb-1">
-                Confirmed Problem Description <span className="text-rose-500">*</span>
+              <label htmlFor="final-problem-input" className="block text-sm font-semibold text-slate-800 mb-1.5">
+                Problem Description <span className="text-rose-500">*</span>
               </label>
               <textarea
                 id="final-problem-input"
@@ -692,13 +692,13 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
                 value={finalProblem}
                 onChange={(e) => setFinalProblem(e.target.value)}
                 placeholder="Review and confirm the exact problem description..."
-                className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white disabled:bg-slate-100 disabled:text-slate-600 font-medium"
+                className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white disabled:bg-slate-100 disabled:text-slate-700 font-medium placeholder:text-slate-400"
               />
             </div>
 
             <div>
-              <label htmlFor="final-address-input" className="block text-xs font-semibold text-slate-800 mb-1">
-                Confirmed Incident Address
+              <label htmlFor="final-address-input" className="block text-sm font-semibold text-slate-800 mb-1.5">
+                Incident Address
               </label>
               <input
                 id="final-address-input"
@@ -707,13 +707,13 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
                 value={finalAddress}
                 onChange={(e) => setFinalAddress(e.target.value)}
                 placeholder="e.g. 5th Main Road near Community Center"
-                className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white disabled:bg-slate-100 disabled:text-slate-600"
+                className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white disabled:bg-slate-100 disabled:text-slate-700 placeholder:text-slate-400"
               />
             </div>
 
             <div>
-              <label htmlFor="final-summary-input" className="block text-xs font-semibold text-slate-800 mb-1">
-                Confirmed Official Summary
+              <label htmlFor="final-summary-input" className="block text-sm font-semibold text-slate-800 mb-1.5">
+                Summary
               </label>
               <textarea
                 id="final-summary-input"
@@ -721,51 +721,51 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
                 disabled={isLocked}
                 value={finalSummary}
                 onChange={(e) => setFinalSummary(e.target.value)}
-                placeholder="Official formal summary for municipal record..."
-                className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white disabled:bg-slate-100 disabled:text-slate-600"
+                placeholder="Summary of the issue..."
+                className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white disabled:bg-slate-100 disabled:text-slate-700 placeholder:text-slate-400"
               />
             </div>
 
             {isLocked ? (
-              <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
-                <div className="flex items-center gap-1.5 font-medium text-slate-600">
+              <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm text-slate-600">
+                <div className="flex items-center gap-1.5 font-medium text-slate-700">
                   <Lock className="w-4 h-4 text-slate-400" aria-hidden="true" />
                   <span>
                     {isTerminal
                       ? 'Case file is finalized and archived.'
-                      : 'Submitted — Editing locked during administrative review.'}
+                      : 'Submitted — Locked during review.'}
                   </span>
                 </div>
-                <span className="font-semibold text-slate-700 bg-slate-100 px-2.5 py-1 rounded text-[11px] border border-slate-200">
+                <span className="font-bold text-slate-800 bg-slate-100 px-2.5 py-1 rounded text-xs border border-slate-200">
                   Status: {currentStatus}
                 </span>
               </div>
             ) : (
-              <div className="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100">
+              <div className="pt-3 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-slate-100">
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-4 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 rounded-lg text-xs font-medium transition inline-flex items-center gap-1.5 shadow-xs"
+                  className="w-full sm:w-auto px-4 py-2.5 sm:py-2 bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 rounded-lg text-sm font-semibold transition inline-flex items-center justify-center gap-1.5 shadow-xs"
                 >
                   {saving ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
-                  <span>Save Draft Changes</span>
+                  <span>Save Changes</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={handleSubmitComplaint}
                   disabled={submittingFinal}
-                  className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition shadow-sm inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="w-full sm:w-auto px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-bold transition shadow-sm inline-flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
                   {submittingFinal ? (
                     <>
                       <RefreshCw className="w-4 h-4 animate-spin" aria-hidden="true" />
-                      <span>Submitting Complaint...</span>
+                      <span>Submitting Report...</span>
                     </>
                   ) : (
                     <>
                       <Send className="w-4 h-4" aria-hidden="true" />
-                      <span>Submit Complaint</span>
+                      <span>Submit Report</span>
                     </>
                   )}
                 </button>
@@ -788,17 +788,17 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
                 <Trash2 className="w-5 h-5" aria-hidden="true" />
               </div>
               <div>
-                <h4 id="delete-modal-title" className="text-base font-bold text-slate-900">
-                  Delete this complaint?
+                <h4 id="delete-modal-title" className="text-lg font-bold text-slate-900">
+                  Delete this report?
                 </h4>
-                <p className="text-xs text-slate-500">
-                  Complaint ID: <span className="font-mono">{complaint.id.slice(0, 8)}…</span>
+                <p className="text-xs sm:text-sm text-slate-600">
+                  Report ID: <span className="font-mono font-medium">{complaint.id.slice(0, 8)}…</span>
                 </p>
               </div>
             </div>
 
-            <p className="text-xs text-slate-600 mb-6 leading-relaxed">
-              This will permanently remove the complaint and its associated data. This action cannot be undone.
+            <p className="text-sm text-slate-600 mb-6 leading-relaxed">
+              This will permanently remove the report. This action cannot be undone.
             </p>
 
             {deleteError && (
@@ -817,7 +817,7 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
                   setShowDeleteModal(false);
                   setDeleteError(null);
                 }}
-                className="px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 rounded-lg transition"
+                className="px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg transition"
               >
                 Cancel
               </button>
@@ -825,17 +825,17 @@ export default function ComplaintReviewCard({ complaint: initialComplaint, onDra
                 type="button"
                 disabled={deleting}
                 onClick={handleDeleteComplaint}
-                className="px-4 py-2 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-lg transition shadow-xs inline-flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-rose-500"
+                className="px-4 py-2 text-sm font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-lg transition shadow-xs inline-flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-rose-500"
               >
                 {deleting ? (
                   <>
                     <RefreshCw className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
-                    <span>Deleting Complaint...</span>
+                    <span>Deleting Report...</span>
                   </>
                 ) : (
                   <>
                     <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
-                    <span>Delete Complaint</span>
+                    <span>Delete Report</span>
                   </>
                 )}
               </button>

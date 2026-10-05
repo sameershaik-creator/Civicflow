@@ -35,31 +35,31 @@ export default function Header({
               </span>
 
             </div>
-            <p className="text-[11px] text-slate-400 font-normal mt-0.5 hidden sm:block">
-              Municipal Issue Intake, AI Drafting & Adjudication
+            <p className="text-xs text-slate-300 font-normal mt-0.5 hidden sm:block">
+              Municipal Issue Reporting & Resolution
             </p>
           </div>
         </button>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-3">
-          <nav aria-label="Main Navigation" className="flex items-center bg-slate-800 p-1 rounded-lg border border-slate-700 text-xs">
+        <div className="hidden md:flex items-center space-x-1.5 lg:space-x-3">
+          <nav aria-label="Main Navigation" className="flex items-center bg-slate-800 p-1 rounded-lg border border-slate-700 text-xs gap-0.5 lg:gap-1">
             {isAdmin ? (
               <>
                 <button
                   type="button"
                   onClick={() => handleTabClick('admin')}
-                  className={`px-3 py-1.5 rounded-md font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-400 ${activeTab === 'admin'
+                  className={`px-2.5 lg:px-3.5 py-1.5 rounded-md font-medium text-xs lg:text-sm transition focus:outline-none focus:ring-2 focus:ring-blue-400 whitespace-nowrap ${activeTab === 'admin'
                     ? 'bg-blue-600 text-white shadow-sm'
                     : 'text-slate-300 hover:text-white'
                     }`}
                 >
-                  Admin Adjudication
+                  Administrative Review
                 </button>
                 <button
                   type="button"
                   onClick={() => handleTabClick('home')}
-                  className={`px-3 py-1.5 rounded-md font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-400 ${activeTab === 'home'
+                  className={`px-2.5 lg:px-3.5 py-1.5 rounded-md font-medium text-xs lg:text-sm transition focus:outline-none focus:ring-2 focus:ring-blue-400 whitespace-nowrap ${activeTab === 'home'
                     ? 'bg-blue-600 text-white shadow-sm'
                     : 'text-slate-300 hover:text-white'
                     }`}
@@ -72,7 +72,7 @@ export default function Header({
                 <button
                   type="button"
                   onClick={() => handleTabClick('home')}
-                  className={`px-3 py-1.5 rounded-md font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-400 ${activeTab === 'home'
+                  className={`px-2.5 lg:px-3.5 py-1.5 rounded-md font-medium text-xs lg:text-sm transition focus:outline-none focus:ring-2 focus:ring-blue-400 whitespace-nowrap ${activeTab === 'home'
                     ? 'bg-blue-600 text-white shadow-sm'
                     : 'text-slate-300 hover:text-white'
                     }`}
@@ -82,7 +82,7 @@ export default function Header({
                 <button
                   type="button"
                   onClick={() => handleTabClick('how-it-works')}
-                  className={`px-3 py-1.5 rounded-md font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-400 ${activeTab === 'how-it-works'
+                  className={`px-2.5 lg:px-3.5 py-1.5 rounded-md font-medium text-xs lg:text-sm transition focus:outline-none focus:ring-2 focus:ring-blue-400 whitespace-nowrap ${activeTab === 'how-it-works'
                     ? 'bg-blue-600 text-white shadow-sm'
                     : 'text-slate-300 hover:text-white'
                     }`}
@@ -92,7 +92,7 @@ export default function Header({
                 <button
                   type="button"
                   onClick={() => handleTabClick('report')}
-                  className={`px-3 py-1.5 rounded-md font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-400 ${activeTab === 'report'
+                  className={`px-2.5 lg:px-3.5 py-1.5 rounded-md font-medium text-xs lg:text-sm transition focus:outline-none focus:ring-2 focus:ring-blue-400 whitespace-nowrap ${activeTab === 'report'
                     ? 'bg-blue-600 text-white shadow-sm'
                     : 'text-slate-300 hover:text-white'
                     }`}
@@ -102,22 +102,22 @@ export default function Header({
                 <button
                   type="button"
                   onClick={() => handleTabClick('my-complaints')}
-                  className={`px-3 py-1.5 rounded-md font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-400 ${activeTab === 'my-complaints'
+                  className={`px-2.5 lg:px-3.5 py-1.5 rounded-md font-medium text-xs lg:text-sm transition focus:outline-none focus:ring-2 focus:ring-blue-400 whitespace-nowrap ${activeTab === 'my-complaints'
                     ? 'bg-blue-600 text-white shadow-sm'
                     : 'text-slate-300 hover:text-white'
                     }`}
                 >
-                  My Complaints
+                  My Reports
                 </button>
                 <button
                   type="button"
                   onClick={() => handleTabClick('notifications')}
-                  className={`px-3 py-1.5 rounded-md font-medium transition flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-blue-400 ${activeTab === 'notifications'
+                  className={`px-2.5 lg:px-3.5 py-1.5 rounded-md font-medium text-xs lg:text-sm transition flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-blue-400 whitespace-nowrap ${activeTab === 'notifications'
                     ? 'bg-blue-600 text-white shadow-sm'
                     : 'text-slate-300 hover:text-white'
                     }`}
                 >
-                  <Bell className="w-3.5 h-3.5" aria-hidden="true" />
+                  <Bell className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                   <span>Notifications</span>
                   {unreadCount > 0 && (
                     <span className="px-1.5 py-0.2 rounded-full text-[10px] font-bold bg-blue-500 text-white leading-tight">
@@ -131,7 +131,7 @@ export default function Header({
                 <button
                   type="button"
                   onClick={() => handleTabClick('home')}
-                  className={`px-3 py-1.5 rounded-md font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-400 ${activeTab === 'home'
+                  className={`px-2.5 lg:px-3.5 py-1.5 rounded-md font-medium text-xs lg:text-sm transition focus:outline-none focus:ring-2 focus:ring-blue-400 whitespace-nowrap ${activeTab === 'home'
                     ? 'bg-blue-600 text-white shadow-sm'
                     : 'text-slate-300 hover:text-white'
                     }`}
@@ -141,7 +141,7 @@ export default function Header({
                 <button
                   type="button"
                   onClick={() => handleTabClick('how-it-works')}
-                  className={`px-3 py-1.5 rounded-md font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-400 ${activeTab === 'how-it-works'
+                  className={`px-2.5 lg:px-3.5 py-1.5 rounded-md font-medium text-xs lg:text-sm transition focus:outline-none focus:ring-2 focus:ring-blue-400 whitespace-nowrap ${activeTab === 'how-it-works'
                     ? 'bg-blue-600 text-white shadow-sm'
                     : 'text-slate-300 hover:text-white'
                     }`}
@@ -151,7 +151,7 @@ export default function Header({
                 <button
                   type="button"
                   onClick={() => handleTabClick('report')}
-                  className={`px-3 py-1.5 rounded-md font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-400 ${activeTab === 'report'
+                  className={`px-2.5 lg:px-3.5 py-1.5 rounded-md font-medium text-xs lg:text-sm transition focus:outline-none focus:ring-2 focus:ring-blue-400 whitespace-nowrap ${activeTab === 'report'
                     ? 'bg-blue-600 text-white shadow-sm'
                     : 'text-slate-300 hover:text-white'
                     }`}
@@ -161,12 +161,12 @@ export default function Header({
                 <button
                   type="button"
                   onClick={() => handleTabClick('admin')}
-                  className={`px-3 py-1.5 rounded-md font-medium transition inline-flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-blue-400 ${activeTab === 'admin'
+                  className={`px-2.5 lg:px-3.5 py-1.5 rounded-md font-medium text-xs lg:text-sm transition inline-flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-blue-400 whitespace-nowrap ${activeTab === 'admin'
                     ? 'bg-slate-900 text-blue-300 border border-slate-600 shadow-sm'
-                    : 'text-slate-400 hover:text-white'
+                    : 'text-slate-300 hover:text-white'
                     }`}
                 >
-                  <Lock className="w-3 h-3 text-slate-400" aria-hidden="true" />
+                  <Lock className="w-3.5 h-3.5 text-slate-300 shrink-0" aria-hidden="true" />
                   <span>Admin Portal</span>
                 </button>
               </>
@@ -175,17 +175,17 @@ export default function Header({
 
           {/* User Session Info */}
           {currentUser && (
-            <div className="flex items-center space-x-2 pl-2 border-l border-slate-800">
-              <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-medium border ${isAdmin
+            <div className="flex items-center space-x-1.5 lg:space-x-2 pl-1.5 lg:pl-2 border-l border-slate-800">
+              <span className={`inline-flex items-center px-2 lg:px-2.5 py-1 rounded-md text-[10px] lg:text-[11px] font-medium border ${isAdmin
                 ? 'bg-purple-950/70 text-purple-200 border-purple-800'
                 : 'bg-blue-950/70 text-blue-200 border-blue-800'
                 }`}>
                 {isAdmin ? (
-                  <ShieldAlert className="w-3.5 h-3.5 mr-1 text-purple-400" aria-hidden="true" />
+                  <ShieldAlert className="w-3.5 h-3.5 mr-1 text-purple-400 shrink-0" aria-hidden="true" />
                 ) : (
-                  <UserCheck className="w-3.5 h-3.5 mr-1 text-blue-400" aria-hidden="true" />
+                  <UserCheck className="w-3.5 h-3.5 mr-1 text-blue-400 shrink-0" aria-hidden="true" />
                 )}
-                <span>{isAdmin ? 'Admin' : 'Citizen'}: {currentUser.name ? currentUser.name.split(' ')[0] : 'User'}</span>
+                <span><span className="hidden lg:inline">{isAdmin ? 'Admin' : 'Citizen'}: </span>{currentUser.name ? currentUser.name.split(' ')[0] : 'User'}</span>
               </span>
               {onLogout && (
                 <button
@@ -255,15 +255,15 @@ export default function Header({
                   <button
                     type="button"
                     onClick={() => handleTabClick('admin')}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold ${activeTab === 'admin' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
+                    className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-semibold ${activeTab === 'admin' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
                       }`}
                   >
-                    Admin Adjudication Dashboard
+                    Administrative Review
                   </button>
                   <button
                     type="button"
                     onClick={() => handleTabClick('home')}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold ${activeTab === 'home' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
+                    className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-semibold ${activeTab === 'home' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
                       }`}
                   >
                     Public View
@@ -274,7 +274,7 @@ export default function Header({
                   <button
                     type="button"
                     onClick={() => handleTabClick('home')}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold ${activeTab === 'home' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
+                    className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-semibold ${activeTab === 'home' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
                       }`}
                   >
                     Home
@@ -282,7 +282,7 @@ export default function Header({
                   <button
                     type="button"
                     onClick={() => handleTabClick('how-it-works')}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold ${activeTab === 'how-it-works' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
+                    className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-semibold ${activeTab === 'how-it-works' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
                       }`}
                   >
                     How It Works
@@ -290,7 +290,7 @@ export default function Header({
                   <button
                     type="button"
                     onClick={() => handleTabClick('report')}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold ${activeTab === 'report' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
+                    className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-semibold ${activeTab === 'report' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
                       }`}
                   >
                     Report Issue
@@ -298,15 +298,15 @@ export default function Header({
                   <button
                     type="button"
                     onClick={() => handleTabClick('my-complaints')}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold ${activeTab === 'my-complaints' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
+                    className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-semibold ${activeTab === 'my-complaints' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
                       }`}
                   >
-                    My Complaints
+                    My Reports
                   </button>
                   <button
                     type="button"
                     onClick={() => handleTabClick('notifications')}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-between ${activeTab === 'notifications' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
+                    className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-between ${activeTab === 'notifications' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
                       }`}
                   >
                     <span>Notifications</span>
@@ -324,7 +324,7 @@ export default function Header({
               <button
                 type="button"
                 onClick={() => handleTabClick('home')}
-                className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold ${activeTab === 'home' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
+                className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-semibold ${activeTab === 'home' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
                   }`}
               >
                 Home
@@ -332,7 +332,7 @@ export default function Header({
               <button
                 type="button"
                 onClick={() => handleTabClick('how-it-works')}
-                className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold ${activeTab === 'how-it-works' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
+                className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-semibold ${activeTab === 'how-it-works' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
                   }`}
               >
                 How It Works
@@ -340,7 +340,7 @@ export default function Header({
               <button
                 type="button"
                 onClick={() => handleTabClick('report')}
-                className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold ${activeTab === 'report' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
+                className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-semibold ${activeTab === 'report' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'
                   }`}
               >
                 Report an Issue
@@ -348,10 +348,10 @@ export default function Header({
               <button
                 type="button"
                 onClick={() => handleTabClick('admin')}
-                className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 ${activeTab === 'admin' ? 'bg-slate-800 text-blue-300' : 'text-slate-400 hover:bg-slate-800'
+                className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-semibold flex items-center gap-2 ${activeTab === 'admin' ? 'bg-slate-800 text-blue-300' : 'text-slate-300 hover:bg-slate-800'
                   }`}
               >
-                <Lock className="w-3.5 h-3.5" />
+                <Lock className="w-3.5 h-3.5 text-slate-300" />
                 <span>Admin Portal</span>
               </button>
             </>

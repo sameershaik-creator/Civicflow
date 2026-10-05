@@ -172,7 +172,7 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
       setActiveReviewComplaint(null);
     }
     setComplaintsList(prev => prev.filter(c => c.id !== deletedId));
-    setDeleteSuccessMessage('Complaint deleted successfully.');
+    setDeleteSuccessMessage('Report deleted successfully.');
     setTimeout(() => setDeleteSuccessMessage(null), 5000);
   }
 
@@ -185,7 +185,7 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
       handleComplaintDeleted(complaintToDelete.id);
       setComplaintToDelete(null);
     } catch (err) {
-      setDeleteError(err.message || 'Failed to delete complaint.');
+      setDeleteError(err.message || 'Failed to delete report.');
     } finally {
       setDeletingId(null);
     }
@@ -240,11 +240,11 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
     if (submitting) return;
 
     if (!selectedFile) {
-      setErrorMessage('Please select an evidence photo to upload.');
+      setErrorMessage('Please select a photo to upload.');
       return;
     }
     if (!problem.trim() || problem.trim().length < 5) {
-      setErrorMessage('Please describe the observed civic issue (minimum 5 characters).');
+      setErrorMessage('Please describe the issue (minimum 5 characters).');
       return;
     }
 
@@ -291,7 +291,7 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
       // Refresh citizen complaints list in the background
       fetchMyComplaints().then(list => setComplaintsList(list)).catch(() => {});
     } catch (err) {
-      setErrorMessage(err.message || 'Failed to submit complaint intake.');
+      setErrorMessage(err.message || 'Failed to prepare report.');
     } finally {
       setSubmitting(false);
     }
@@ -300,27 +300,27 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
   return (
     <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden mb-10">
       {/* Intake Card Header */}
-      <div className="px-6 py-4 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4">
+      <div className="px-4 sm:px-6 py-3.5 sm:py-4 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h2 className="text-base font-semibold text-slate-900 flex items-center gap-2">
+          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2.5">
             <Camera className="w-5 h-5 text-blue-600" aria-hidden="true" />
-            <span>Citizen Complaint Intake</span>
+            <span>Report an Issue</span>
           </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Capture authentic photo evidence and record problem details. Saved strictly as a <strong>DRAFT</strong>.
+          <p className="text-sm text-slate-600 mt-1 leading-normal">
+            Provide photos and details about the issue. You can review your report draft before submitting.
           </p>
         </div>
 
         {currentUser && (
           <div className="flex items-center gap-3">
-            <span className="text-xs bg-blue-50 text-blue-800 px-3 py-1 rounded-full font-medium border border-blue-200 flex items-center gap-1.5">
+            <span className="text-xs bg-blue-50 text-blue-800 px-3 py-1 rounded-full font-semibold border border-blue-200 flex items-center gap-1.5">
               <User className="w-3.5 h-3.5" aria-hidden="true" />
               <span>{currentUser.name}</span>
             </span>
             <button
               type="button"
               onClick={handleLogout}
-              className="text-xs text-slate-500 hover:text-rose-600 font-medium transition"
+              className="text-xs sm:text-sm text-slate-600 hover:text-rose-600 font-medium transition"
             >
               Sign out
             </button>
@@ -328,7 +328,7 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
         )}
       </div>
 
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         {loadingAuth ? (
           <LoadingState message="Verifying citizen session..." />
         ) : !currentUser ? (
@@ -338,11 +338,11 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
               <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-3 border border-blue-200 shadow-xs">
                 <Lock className="w-6 h-6" aria-hidden="true" />
               </div>
-              <h3 className="text-base font-bold text-slate-900">
-                Citizen Sign In Required
+              <h3 className="text-lg font-bold text-slate-900">
+                Sign In to Report an Issue
               </h3>
-              <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
-                Sign in with your citizen account to report municipal issues, inspect AI-assisted drafts, and track official decisions.
+              <p className="text-sm text-slate-600 mt-1.5 max-w-sm mx-auto leading-normal">
+                Sign in to report municipal issues, review your reports, and track status updates.
               </p>
             </div>
 
@@ -355,7 +355,7 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
             <form onSubmit={handleAuthSubmit} className="space-y-4">
               {authMode === 'register' && (
                 <div>
-                  <label htmlFor="auth-name" className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label htmlFor="auth-name" className="block text-sm font-semibold text-slate-800 mb-1.5">
                     Full Name <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -364,14 +364,14 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                     required
                     value={authForm.name}
                     onChange={(e) => setAuthForm({ ...authForm, name: e.target.value })}
-                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3.5 py-2.5 text-sm text-slate-900 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-slate-400"
                     placeholder="e.g. Jane Doe"
                   />
                 </div>
               )}
 
               <div>
-                <label htmlFor="auth-email" className="block text-xs font-semibold text-slate-700 mb-1">
+                <label htmlFor="auth-email" className="block text-sm font-semibold text-slate-800 mb-1.5">
                   Email Address <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -380,13 +380,13 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                   required
                   value={authForm.email}
                   onChange={(e) => setAuthForm({ ...authForm, email: e.target.value })}
-                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3.5 py-2.5 text-sm text-slate-900 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-slate-400"
                   placeholder="citizen@example.com"
                 />
               </div>
 
               <div>
-                <label htmlFor="auth-password" className="block text-xs font-semibold text-slate-700 mb-1">
+                <label htmlFor="auth-password" className="block text-sm font-semibold text-slate-800 mb-1.5">
                   Password <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -395,7 +395,7 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                   required
                   value={authForm.password}
                   onChange={(e) => setAuthForm({ ...authForm, password: e.target.value })}
-                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3.5 py-2.5 text-sm text-slate-900 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-slate-400"
                   placeholder="••••••••"
                 />
               </div>
@@ -403,10 +403,10 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
               <button
                 type="submit"
                 disabled={authSubmitting}
-                className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition flex items-center justify-center gap-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition flex items-center justify-center gap-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               >
                 {authSubmitting && <RefreshCw className="w-4 h-4 animate-spin" aria-hidden="true" />}
-                <span>{authMode === 'login' ? 'Sign In to Report Issue' : 'Register Citizen Account'}</span>
+                <span>{authMode === 'login' ? 'Sign In to Continue' : 'Create Account'}</span>
               </button>
             </form>
 
@@ -417,10 +417,10 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                   setAuthMode(authMode === 'login' ? 'register' : 'login');
                   setAuthError(null);
                 }}
-                className="text-xs text-blue-600 hover:text-blue-800 hover:underline font-medium"
+                className="text-sm text-blue-700 hover:text-blue-900 hover:underline font-medium"
               >
                 {authMode === 'login'
-                  ? "New citizen? Create an account to report issues"
+                  ? "Need an account? Sign up here"
                   : 'Already registered? Sign in'}
               </button>
             </div>
@@ -430,9 +430,9 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                 <button
                   type="button"
                   onClick={onNavigateAdmin}
-                  className="text-xs text-slate-500 hover:text-slate-800 hover:underline inline-flex items-center gap-1 font-medium"
+                  className="text-sm text-slate-600 hover:text-slate-900 hover:underline inline-flex items-center gap-1 font-medium"
                 >
-                  <Lock className="w-3 h-3 text-slate-400" aria-hidden="true" />
+                  <Lock className="w-3.5 h-3.5 text-slate-500" aria-hidden="true" />
                   <span>Administrator? Go to Admin Portal</span>
                 </button>
               </div>
@@ -447,7 +447,7 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                   <div className="flex items-center gap-2">
                     <FileText className="w-4 h-4 text-blue-600" />
                     <span className="text-xs font-semibold text-slate-800">
-                      Currently Reviewing Case #{activeReviewComplaint.id.slice(0, 8)}…
+                      Reviewing Report #{activeReviewComplaint.id.slice(0, 8)}…
                     </span>
                   </div>
                   <button
@@ -495,19 +495,19 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Step 1: Upload Evidence Photo */}
               <fieldset className="border border-slate-200 rounded-xl p-4 sm:p-5 bg-slate-50/50">
-                <legend className="text-xs font-bold uppercase tracking-wider text-slate-700 px-2 flex items-center gap-1.5">
+                <legend className="text-sm font-bold uppercase tracking-wider text-slate-800 px-2 flex items-center gap-2">
                   <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold">1</span>
-                  <span>Evidence Photo</span>
+                  <span>Photos</span>
                   <span className="text-rose-500 font-bold">*</span>
                 </legend>
-                <p className="text-xs text-slate-500 mb-3">
-                  Upload authentic photo evidence showing the observed civic issue (JPEG, PNG, WebP up to 10 MB).
+                <p className="text-xs sm:text-sm text-slate-600 mb-3 font-normal">
+                  Upload a clear photo showing the issue (JPEG, PNG, WebP up to 10 MB).
                 </p>
 
-                <div className="flex flex-wrap items-center gap-4">
+                <div className="flex flex-wrap items-center gap-3 sm:gap-4">
                   <label
                     htmlFor="evidence-photo-input"
-                    className="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 shadow-xs transition focus-within:ring-2 focus-within:ring-blue-500"
+                    className="cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-sm font-semibold text-slate-800 shadow-xs transition focus-within:ring-2 focus-within:ring-blue-500 w-full sm:w-auto"
                   >
                     <Upload className="w-4 h-4 text-blue-600" aria-hidden="true" />
                     <span>Select Photo</span>
@@ -521,14 +521,14 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                   </label>
 
                   {selectedFile && (
-                    <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-slate-200 text-xs text-slate-700 shadow-xs">
-                      <span className="truncate max-w-xs font-medium">{selectedFile.name}</span>
-                      <span className="text-slate-400">({(selectedFile.size / 1024).toFixed(0)} KB)</span>
+                    <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-slate-200 text-xs sm:text-sm text-slate-800 shadow-xs max-w-full min-w-0 font-medium">
+                      <span className="truncate max-w-xs">{selectedFile.name}</span>
+                      <span className="text-slate-500 shrink-0">({(selectedFile.size / 1024).toFixed(0)} KB)</span>
                       <button
                         type="button"
                         onClick={handleRemoveFile}
                         aria-label="Remove selected photo"
-                        className="p-1 text-slate-400 hover:text-rose-600 rounded transition"
+                        className="p-1 text-slate-400 hover:text-rose-600 rounded transition shrink-0"
                       >
                         <X className="w-3.5 h-3.5" />
                       </button>
@@ -537,7 +537,7 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                 </div>
 
                 {filePreview && (
-                  <div className="mt-3 max-w-xs rounded-lg overflow-hidden border border-slate-200 shadow-xs relative">
+                  <div className="mt-3 max-w-full sm:max-w-xs rounded-lg overflow-hidden border border-slate-200 shadow-xs relative">
                     <img
                       src={filePreview}
                       alt="Uploaded incident evidence preview"
@@ -552,12 +552,12 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
 
               {/* Step 2: Problem Description */}
               <fieldset className="border border-slate-200 rounded-xl p-4 sm:p-5 bg-slate-50/50">
-                <legend className="text-xs font-bold uppercase tracking-wider text-slate-700 px-2 flex items-center gap-1.5">
+                <legend className="text-sm font-bold uppercase tracking-wider text-slate-800 px-2 flex items-center gap-2">
                   <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold">2</span>
                   <span>Problem Description</span>
                   <span className="text-rose-500 font-bold">*</span>
                 </legend>
-                <label htmlFor="problem-input" className="block text-xs font-medium text-slate-700 mb-1">
+                <label htmlFor="problem-input" className="block text-sm font-semibold text-slate-800 mb-1.5">
                   What is the problem?
                 </label>
                 <textarea
@@ -567,9 +567,9 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                   value={problem}
                   onChange={(e) => setProblem(e.target.value)}
                   placeholder="Example: Deep pothole near the main intersection causing vehicular hazard and water pooling..."
-                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  className="w-full px-3.5 py-2.5 text-sm text-slate-900 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white placeholder:text-slate-400"
                 />
-                <div className="flex justify-between text-[11px] text-slate-400 mt-1">
+                <div className="flex justify-between text-xs text-slate-500 font-medium mt-1.5">
                   <span>Minimum 5 characters. Be descriptive and objective.</span>
                   <span>{problem.length} / 1000</span>
                 </div>
@@ -577,15 +577,15 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
 
               {/* Step 3: Location Information */}
               <fieldset className="border border-slate-200 rounded-xl p-4 sm:p-5 bg-slate-50/50 space-y-4">
-                <legend className="text-xs font-bold uppercase tracking-wider text-slate-700 px-2 flex items-center gap-1.5">
+                <legend className="text-sm font-bold uppercase tracking-wider text-slate-800 px-2 flex items-center gap-2">
                   <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold">3</span>
-                  <span>Location Evidence</span>
+                  <span>Location</span>
                 </legend>
 
                 {/* Entered Address */}
                 <div>
-                  <label htmlFor="address-input" className="block text-xs font-semibold text-slate-700 mb-1">
-                    Incident Address <span className="text-slate-400 font-normal">(Optional address hint)</span>
+                  <label htmlFor="address-input" className="block text-sm font-semibold text-slate-800 mb-1.5">
+                    Incident Address <span className="text-slate-500 font-normal">(Optional)</span>
                   </label>
                   <input
                     id="address-input"
@@ -593,31 +593,31 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     placeholder="e.g. Near Community Health Center, 5th Main Road"
-                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                    className="w-full px-3.5 py-2.5 text-sm text-slate-900 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white placeholder:text-slate-400"
                   />
-                  <p className="text-[11px] text-slate-500 mt-1">
-                    The street address or landmark where the incident occurred.
+                  <p className="text-xs text-slate-600 mt-1.5 leading-normal">
+                    Street address or nearest landmark where the issue is located.
                   </p>
                 </div>
 
                 {/* Device Coordinates */}
                 <div>
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
-                    <label className="text-xs font-semibold text-slate-700">
-                      Device Location <span className="text-slate-400 font-normal">(Supporting GPS coordinates)</span>
+                    <label className="text-sm font-semibold text-slate-800">
+                      Device Location <span className="text-slate-500 font-normal">(GPS coordinates)</span>
                     </label>
                     <button
                       type="button"
                       onClick={handleGetLocation}
-                      className="text-xs text-blue-600 hover:text-blue-800 inline-flex items-center gap-1 font-medium transition"
+                      className="text-xs sm:text-sm text-blue-700 hover:text-blue-900 inline-flex items-center gap-1.5 font-semibold transition"
                     >
                       <Navigation className="w-3.5 h-3.5" aria-hidden="true" />
-                      <span>Attach Device GPS</span>
+                      <span>Use Current Location</span>
                     </button>
                   </div>
 
-                  <p className="text-[11px] text-slate-500 mb-2 leading-relaxed">
-                    Your device location is used as supporting location evidence. It is not treated as proof that the photo was taken there.
+                  <p className="text-xs text-slate-600 mb-2.5 leading-relaxed font-normal">
+                    Your device location helps pinpoint where the report is located.
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -630,7 +630,7 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                         value={latitude}
                         onChange={(e) => setLatitude(e.target.value)}
                         placeholder="Latitude (e.g. 12.9716)"
-                        className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white font-mono"
+                        className="w-full px-3.5 py-2.5 text-sm text-slate-900 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white font-mono placeholder:text-slate-400"
                       />
                     </div>
                     <div>
@@ -642,7 +642,7 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                         value={longitude}
                         onChange={(e) => setLongitude(e.target.value)}
                         placeholder="Longitude (e.g. 77.5946)"
-                        className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white font-mono"
+                        className="w-full px-3.5 py-2.5 text-sm text-slate-900 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white font-mono placeholder:text-slate-400"
                       />
                     </div>
                   </div>
@@ -654,16 +654,16 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition shadow-sm flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition shadow-sm flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
                   {submitting ? (
                     <>
                       <RefreshCw className="w-4 h-4 animate-spin" aria-hidden="true" />
-                      <span>Creating Draft & Preparing AI Analysis...</span>
+                      <span>Preparing your report...</span>
                     </>
                   ) : (
                     <>
-                      <span>Create Complaint Draft & Review</span>
+                      <span>Prepare Report & Review</span>
                       <ArrowRight className="w-4 h-4" aria-hidden="true" />
                     </>
                   )}
@@ -674,35 +674,35 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
             {/* Citizen's Existing Complaints Section */}
             <div className="mt-12 pt-8 border-t border-slate-200">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-600">
-                  Your Submitted Complaints & Drafts ({complaintsList.length})
+                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-700">
+                  Your Submitted Reports ({complaintsList.length})
                 </h3>
                 <button
                   type="button"
                   onClick={loadComplaints}
                   disabled={loadingList}
-                  className="text-xs text-blue-600 hover:text-blue-800 inline-flex items-center gap-1 font-medium"
+                  className="text-xs sm:text-sm text-blue-700 hover:text-blue-900 inline-flex items-center gap-1 font-semibold"
                 >
-                  <RefreshCw className={`w-3 h-3 ${loadingList ? 'animate-spin' : ''}`} />
+                  <RefreshCw className={`w-3.5 h-3.5 ${loadingList ? 'animate-spin' : ''}`} />
                   <span>Refresh</span>
                 </button>
               </div>
 
               {loadingList && complaintsList.length === 0 ? (
-                <LoadingState message="Loading your complaints..." />
+                <LoadingState message="Loading your reports..." />
               ) : complaintsList.length === 0 ? (
                 <EmptyState
-                  title="You haven't submitted any complaints yet."
-                  description="When you create a complaint draft and submit it, your case history will appear here."
+                  title="You haven't submitted any reports yet."
+                  description="When you prepare and submit a report, your history will appear here."
                 />
               ) : (
                 <div className="space-y-3">
                   {complaintsList.map((c) => (
                     <div
                       key={c.id}
-                      className="p-4 bg-slate-50/70 hover:bg-slate-50 border border-slate-200 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs transition shadow-xs"
+                      className="p-3.5 sm:p-4 bg-slate-50/70 hover:bg-slate-50 border border-slate-200 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 text-xs transition shadow-xs"
                     >
-                      <div className="flex items-start gap-3 truncate">
+                      <div className="flex items-start gap-3 min-w-0 flex-1">
                         {c.image_url && (
                           <img
                             src={`${API_BASE_URL}${c.image_url}`}
@@ -711,11 +711,11 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                             onError={(e) => { e.target.style.display = 'none'; }}
                           />
                         )}
-                        <div className="truncate">
-                          <div className="font-semibold text-slate-900 truncate text-sm">
+                        <div className="min-w-0 flex-1">
+                          <div className="font-bold text-slate-900 truncate text-base">
                             {c.final_problem || c.original_problem}
                           </div>
-                          <div className="text-slate-500 text-xs truncate flex flex-wrap items-center gap-2 mt-1">
+                          <div className="text-slate-600 text-xs sm:text-sm font-medium truncate flex flex-wrap items-center gap-2 mt-1">
                             <span>{c.final_address || c.original_address || 'No address specified'}</span>
                             {c.location_status && (
                               <StatusBadge status={c.location_status} size="xs" />
@@ -725,7 +725,7 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                                 href={c.map_url}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="text-blue-600 hover:underline text-[11px]"
+                                className="text-blue-700 hover:underline text-xs font-semibold"
                               >
                                 View Map &rarr;
                               </a>
@@ -734,18 +734,18 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200">
+                      <div className="flex flex-wrap items-center justify-between sm:justify-end gap-2.5 sm:gap-3 shrink-0 pt-2.5 sm:pt-0 border-t sm:border-t-0 border-slate-200">
                         <StatusBadge status={c.status} />
 
                         <button
                           type="button"
                           onClick={() => handleOpenReview(c)}
-                          className="px-3 py-1.5 text-xs text-blue-700 bg-white hover:bg-blue-50 border border-blue-300 rounded-lg font-semibold flex items-center gap-1.5 transition shadow-xs"
+                          className="px-3 py-1.5 text-xs sm:text-sm text-blue-700 bg-white hover:bg-blue-50 border border-blue-300 rounded-lg font-semibold flex items-center justify-center gap-1.5 transition shadow-xs"
                         >
                           {['SUBMITTED', 'ACCEPTED', 'REJECTED'].includes(c.status) ? (
                             <>
                               <Eye className="w-3.5 h-3.5" aria-hidden="true" />
-                              <span>View Case</span>
+                              <span>View Report</span>
                             </>
                           ) : (
                             <>
@@ -761,8 +761,8 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                             setComplaintToDelete(c);
                             setDeleteError(null);
                           }}
-                          className="px-2.5 py-1.5 text-xs text-rose-700 bg-white hover:bg-rose-50 border border-rose-300 rounded-lg font-semibold flex items-center gap-1 transition shadow-xs"
-                          title="Delete this complaint"
+                          className="px-2.5 py-1.5 text-xs sm:text-sm text-rose-700 bg-white hover:bg-rose-50 border border-rose-300 rounded-lg font-semibold flex items-center justify-center gap-1 transition shadow-xs"
+                          title="Delete this report"
                         >
                           <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
                           <span className="sr-only sm:not-sr-only">Delete</span>
@@ -788,17 +788,17 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                       <Trash2 className="w-5 h-5" aria-hidden="true" />
                     </div>
                     <div>
-                      <h4 id="intake-delete-modal-title" className="text-base font-bold text-slate-900">
-                        Delete this complaint?
+                      <h4 id="intake-delete-modal-title" className="text-lg font-bold text-slate-900">
+                        Delete this report?
                       </h4>
-                      <p className="text-xs text-slate-500">
-                        Complaint ID: <span className="font-mono">{complaintToDelete.id.slice(0, 8)}…</span>
+                      <p className="text-xs sm:text-sm text-slate-600">
+                        Report ID: <span className="font-mono">{complaintToDelete.id.slice(0, 8)}…</span>
                       </p>
                     </div>
                   </div>
 
-                  <p className="text-xs text-slate-600 mb-6 leading-relaxed">
-                    This will permanently remove the complaint and its associated data. This action cannot be undone.
+                  <p className="text-sm text-slate-600 mb-6 leading-relaxed">
+                    This will permanently remove the report. This action cannot be undone.
                   </p>
 
                   {deleteError && (
@@ -817,7 +817,7 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                         setComplaintToDelete(null);
                         setDeleteError(null);
                       }}
-                      className="px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 rounded-lg transition"
+                      className="px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg transition"
                     >
                       Cancel
                     </button>
@@ -825,17 +825,17 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                       type="button"
                       disabled={deletingId !== null}
                       onClick={handleConfirmDelete}
-                      className="px-4 py-2 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-lg transition shadow-xs inline-flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-rose-500"
+                      className="px-4 py-2 text-sm font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-lg transition shadow-xs inline-flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-rose-500"
                     >
                       {deletingId !== null ? (
                         <>
                           <RefreshCw className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
-                          <span>Deleting Complaint...</span>
+                          <span>Deleting Report...</span>
                         </>
                       ) : (
                         <>
                           <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
-                          <span>Delete Complaint</span>
+                          <span>Delete Report</span>
                         </>
                       )}
                     </button>

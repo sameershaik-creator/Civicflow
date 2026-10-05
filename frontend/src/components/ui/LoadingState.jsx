@@ -20,8 +20,8 @@ export default function LoadingState({
       className={`text-center flex flex-col items-center justify-center ${padClasses} ${className}`}
     >
       <RefreshCw className={`${iconSizes} animate-spin text-blue-600 mb-2`} aria-hidden="true" />
-      <p className="text-xs font-medium text-slate-700">{message}</p>
-      {subtext && <p className="text-[11px] text-slate-500 mt-1 max-w-sm">{subtext}</p>}
+      <p className="text-sm font-semibold text-slate-800">{message}</p>
+      {subtext && <p className="text-xs text-slate-600 mt-1 max-w-sm">{subtext}</p>}
       <span className="sr-only">{message}</span>
     </div>
   );

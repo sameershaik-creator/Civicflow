@@ -96,25 +96,25 @@ export default function InteractiveMap({
   return (
     <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
       {/* Header */}
-      <div className="px-5 py-3.5 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+      <div className="px-4 sm:px-5 py-3 sm:py-3.5 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <Navigation className="w-4 h-4 text-blue-600" aria-hidden="true" />
-          <h4 className="text-sm font-semibold text-slate-900">
-            Geographic Verification & Map
+          <h4 className="text-base font-bold text-slate-900">
+            Location Check & Map
           </h4>
         </div>
 
         {status && <StatusBadge status={status} />}
       </div>
 
-      <div className="p-5 space-y-4">
+      <div className="p-4 sm:p-5 space-y-3.5 sm:space-y-4">
         {/* Verification Status Banner */}
         {isMismatch ? (
-          <div className="p-3.5 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-900 flex items-start gap-2.5">
+          <div className="p-3.5 bg-amber-50 border border-amber-200 rounded-lg text-xs sm:text-sm text-amber-900 flex items-start gap-2.5">
             <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" aria-hidden="true" />
             <div>
-              <div className="font-semibold">Location information differs</div>
-              <p className="mt-0.5 text-amber-800 leading-relaxed">
+              <div className="font-bold">Location information differs</div>
+              <p className="mt-0.5 text-amber-900 leading-relaxed font-medium">
                 The entered street address and supplied device coordinates do not closely correspond
                 {distanceMeters !== undefined && distanceMeters !== null && ` (discrepancy: ${Math.round(distanceMeters)}m)`}.
                 Please review the details before submitting. This information is preserved for administrative review.
@@ -122,10 +122,10 @@ export default function InteractiveMap({
             </div>
           </div>
         ) : isVerified ? (
-          <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-xs text-emerald-800 flex items-center gap-2">
+          <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-xs sm:text-sm text-emerald-900 font-medium flex items-center gap-2">
             <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" aria-hidden="true" />
             <span>
-              Location verified. Entered address corresponds to device GPS coordinates
+              Location checked. Entered address matches device GPS coordinates
               {distanceMeters !== undefined && distanceMeters !== null && ` (distance: ${Math.round(distanceMeters)}m)`}.
             </span>
           </div>
@@ -136,12 +136,12 @@ export default function InteractiveMap({
           <div className="relative">
             <div
               ref={mapContainerRef}
-              className="w-full h-64 rounded-lg border border-slate-200 shadow-inner z-0"
-              style={{ minHeight: '260px' }}
+              className="w-full h-56 sm:h-64 rounded-lg border border-slate-200 shadow-inner z-0"
+              style={{ minHeight: '220px' }}
             />
-            <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
+            <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm text-slate-600 font-medium">
               <span className="flex items-center gap-1 font-mono">
-                <MapPin className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
+                <MapPin className="w-3.5 h-3.5 text-slate-500" aria-hidden="true" />
                 <span>{numLat.toFixed(6)}, {numLon.toFixed(6)}</span>
               </span>
               {osmLink && (
@@ -149,7 +149,7 @@ export default function InteractiveMap({
                   href={osmLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center gap-1 hover:underline focus:outline-none focus:ring-1 focus:ring-blue-500 rounded"
+                  className="text-blue-700 hover:text-blue-900 font-semibold inline-flex items-center gap-1 hover:underline focus:outline-none focus:ring-1 focus:ring-blue-500 rounded"
                 >
                   <span>View on OpenStreetMap</span>
                   <ExternalLink className="w-3 h-3" aria-hidden="true" />
@@ -158,36 +158,36 @@ export default function InteractiveMap({
             </div>
           </div>
         ) : (
-          <div className="h-44 bg-slate-50 border border-dashed border-slate-300 rounded-lg flex flex-col items-center justify-center text-xs text-slate-500">
+          <div className="h-44 bg-slate-50 border border-dashed border-slate-300 rounded-lg flex flex-col items-center justify-center text-sm text-slate-600 font-medium">
             <MapPin className="w-6 h-6 text-slate-400 mb-2" aria-hidden="true" />
             <span>No coordinates available to render map</span>
           </div>
         )}
 
         {/* Informational Details */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs pt-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm pt-1">
           {geocodedAddress && (
             <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
-              <span className="font-semibold text-slate-700 block mb-0.5">Geocoded Address (from entered text):</span>
-              <span className="text-slate-600">{geocodedAddress}</span>
+              <span className="font-bold text-slate-800 block mb-1 text-xs sm:text-sm">Address Location (from address):</span>
+              <span className="text-slate-800 text-xs sm:text-sm leading-relaxed">{geocodedAddress}</span>
             </div>
           )}
           {reverseAddress && (
             <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
-              <span className="font-semibold text-slate-700 block mb-0.5">Reverse-Geocoded (from device GPS):</span>
-              <span className="text-slate-600">{reverseAddress}</span>
+              <span className="font-bold text-slate-800 block mb-1 text-xs sm:text-sm">GPS Location (from device coordinates):</span>
+              <span className="text-slate-800 text-xs sm:text-sm leading-relaxed">{reverseAddress}</span>
             </div>
           )}
         </div>
 
         {message && !isMismatch && !isVerified && (
-          <p className="text-xs text-slate-500 italic">
+          <p className="text-xs sm:text-sm text-slate-600 italic font-medium">
             {message}
           </p>
         )}
 
-        <div className="pt-2 border-t border-slate-100 text-[11px] text-slate-400 italic">
-          Geographic verification is determined through external OpenStreetMap / Nominatim geocoding and device telemetry.
+        <div className="pt-2 border-t border-slate-100 text-xs text-slate-500 italic">
+          Location information is verified using OpenStreetMap geocoding and device GPS.
         </div>
       </div>
     </div>

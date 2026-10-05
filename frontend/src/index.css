@@ -11,6 +11,9 @@
     color: #0f172a;
     background-color: #f8fafc;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
   /* Accessible focus indicators for keyboard navigation */
   :focus-visible {
