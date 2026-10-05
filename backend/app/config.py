@@ -84,9 +84,14 @@ class Settings(BaseSettings):
     @field_validator("DATABASE_URL", mode="after")
     @classmethod
     def resolve_database_url(cls, v: str) -> str:
-        # Standardize postgres:// prefix to postgresql:// for SQLAlchemy 2.0
+        # Standardize PostgreSQL URLs to use psycopg2 driver explicitly
         if v.startswith("postgres://"):
-            v = v.replace("postgres://", "postgresql://", 1)
+            v = v.replace("postgres://", "postgresql+psycopg2://", 1)
+        elif v.startswith("postgresql+psycopg://"):
+            v = v.replace("postgresql+psycopg://", "postgresql+psycopg2://", 1)
+        elif v.startswith("postgresql://"):
+            v = v.replace("postgresql://", "postgresql+psycopg2://", 1)
+
         if v.startswith("sqlite:///./") or v.startswith("sqlite:////./"):
             rel_file = v.replace("sqlite:////./", "").replace("sqlite:///./", "")
             abs_path = (BASE_DIR / rel_file).resolve().as_posix()
