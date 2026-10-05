@@ -58,6 +58,7 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
 
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [addressError, setAddressError] = useState(null);
 
   // Active Human Review Complaint (Phase 7)
   const [activeReviewComplaint, setActiveReviewComplaint] = useState(null);
@@ -234,10 +235,31 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
     }
   }
 
+  function handleAddressChange(e) {
+    const val = e.target.value;
+    setAddress(val);
+    if (addressError && val.trim()) {
+      setAddressError(null);
+      if (errorMessage === 'Please enter the incident address or nearest landmark.') {
+        setErrorMessage(null);
+      }
+    }
+  }
+
+  function handleAddressBlur() {
+    if (!address.trim()) {
+      setAddressError('Please enter the incident address or nearest landmark.');
+    }
+  }
+
   async function handleSubmit(e) {
     if (e && e.preventDefault) e.preventDefault();
     // Section 11: Strict duplicate request protection - ignore any click if already submitting
     if (submitting) return;
+
+    if (!address.trim()) {
+      setAddressError('Please enter the incident address or nearest landmark.');
+    }
 
     if (!selectedFile) {
       setErrorMessage('Please select a photo to upload.');
@@ -247,9 +269,14 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
       setErrorMessage('Please describe the issue (minimum 5 characters).');
       return;
     }
+    if (!address.trim()) {
+      setErrorMessage('Please enter the incident address or nearest landmark.');
+      return;
+    }
 
     setSubmitting(true);
     setErrorMessage(null);
+    setAddressError(null);
 
     const t1_submit = performance.now();
 
@@ -266,6 +293,7 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
       // Clear intake form fields
       setProblem('');
       setAddress('');
+      setAddressError(null);
       setLatitude('');
       setLongitude('');
       handleRemoveFile();
@@ -457,6 +485,7 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                       setIntakeResult(null);
                       setProblem('');
                       setAddress('');
+                      setAddressError(null);
                       setLatitude('');
                       setLongitude('');
                       handleRemoveFile();
@@ -492,7 +521,7 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                 )}
 
             {/* Primary Intake Form */}
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} noValidate className="space-y-6">
               {/* Step 1: Upload Evidence Photo */}
               <fieldset className="border border-slate-200 rounded-xl p-4 sm:p-5 bg-slate-50/50">
                 <legend className="text-sm font-bold uppercase tracking-wider text-slate-800 px-2 flex items-center gap-2">
@@ -585,16 +614,30 @@ export default function ComplaintIntakeForm({ onUserChange, selectedComplaintId,
                 {/* Entered Address */}
                 <div>
                   <label htmlFor="address-input" className="block text-sm font-semibold text-slate-800 mb-1.5">
-                    Incident Address <span className="text-slate-500 font-normal">(Optional)</span>
+                    Incident Address <span className="text-rose-500">*</span>
                   </label>
                   <input
                     id="address-input"
                     type="text"
+                    required
                     value={address}
-                    onChange={(e) => setAddress(e.target.value)}
+                    onChange={handleAddressChange}
+                    onBlur={handleAddressBlur}
                     placeholder="e.g. Near Community Health Center, 5th Main Road"
-                    className="w-full px-3.5 py-2.5 text-sm text-slate-900 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white placeholder:text-slate-400"
+                    className={`w-full px-3.5 py-2.5 text-sm text-slate-900 border rounded-lg focus:outline-none focus:ring-2 bg-white placeholder:text-slate-400 ${
+                      addressError 
+                        ? 'border-rose-400 focus:ring-rose-500 focus:border-rose-500' 
+                        : 'border-slate-300 focus:ring-blue-500'
+                    }`}
+                    aria-invalid={addressError ? "true" : "false"}
+                    aria-describedby={addressError ? "address-error" : undefined}
                   />
+                  {addressError && (
+                    <p id="address-error" className="text-xs sm:text-sm text-rose-600 font-medium mt-1.5 flex items-center gap-1" role="alert">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                      <span>{addressError}</span>
+                    </p>
+                  )}
                   <p className="text-xs text-slate-600 mt-1.5 leading-normal">
                     Street address or nearest landmark where the issue is located.
                   </p>
